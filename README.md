@@ -2,6 +2,10 @@
 
 # Next.js Development: Architecture and Delivery Resources by OzairWebs
 
+![Conceptual 3D Next.js engineering cover with a browser, server modules, database, secure gateway and knowledge node](assets/nextjs-engineering-cover.jpg)
+
+**Architecture. Integration. Delivery.** Independent educational resources by OzairWebs. The cover is a conceptual illustration; the guides below explain the decisions behind a working application.
+
 A web application succeeds when the people using it can complete their work reliably. Framework choice comes after the workflows: who can see a record, how an order changes, which system owns the data, and what happens when a dependency fails. This repository explains how to turn those requirements into a maintainable Next.js application, with attention to rendering, security, integration boundaries and production operation.
 
 [OzairWebs Next.js development](https://ozairwebs.com/technologies/nextjs/) describes the commercial offering. This collection gives founders, product teams and engineers decision criteria they can use independently. It contains an architecture checklist, caching guide, AI integration workflow, security review and deployment runbook. The goal is a reviewable design, not a feature catalogue that assumes every project needs the same stack.
@@ -19,6 +23,22 @@ Technical review date: **13 October 2026**. Next.js **16.4** is the latest stabl
 | How can public application content be discovered? | [Next.js SEO](docs/nextjs-seo.md) |
 | Who operates the service after launch? | [Deployment and maintenance](docs/deployment-and-maintenance.md) |
 | Is Next.js appropriate for this project? | [Buyer FAQ](docs/nextjs-faq.md) |
+
+## Visual architecture: where a responsibility belongs
+
+![Illustrative application boundary map: browser interaction passes through server validation and permissions before data access; access-filtered retrieval precedes model use](assets/application-boundaries.svg)
+
+Read this map from left to right. The browser collects interaction, the server enforces the business rule, and a database or external system supplies the authoritative record. The lower branch shows a possible AI-assisted feature: filter source access before passing context to a model. Each boundary needs its own failure behaviour. Open the image for its full-size labels, then use the [architecture checklist](docs/architecture-and-rendering.md) to test a concrete design.
+
+| Route or workflow | Useful starting approach | Boundary to verify |
+| --- | --- | --- |
+| Public service article | Pre-rendered or deliberately cached content with an owned refresh policy | An edit reaches a fresh request and client navigation |
+| Authenticated customer dashboard | Request-specific authorization and appropriately scoped data reads | Another user's records remain inaccessible through a changed identifier |
+| Interactive catalogue filter | A small client interaction boundary backed by supported query rules | Invalid filters and empty results remain understandable |
+| Payment notification | A server endpoint with provider verification and duplicate-event protection | A repeated event cannot repeat fulfilment |
+| Support assistant | Permission-filtered retrieval and validated output with sources | Missing or unauthorized material triggers a safe fallback |
+
+These are decision criteria. Installed versions, actual configuration, data sensitivity and operating constraints determine the implementation.
 
 ## What problems justify a custom application?
 
@@ -66,6 +86,15 @@ Payment integrations must distinguish an attempted checkout from a verified tran
 
 ## AI systems and external integrations
 
+<details>
+<summary>View the animated read-only request flow</summary>
+
+![Slow conceptual animation highlighting request, permission check, access-filtered retrieval and a validated response with sources](assets/controlled-request-flow.gif)
+
+The animation highlights the dependency order. It plays twice and then rests on the overview. This is an illustrative read-only flow; permissions remain enforced by the application. [Open the static alternative](assets/request-flow-static.svg) or read the [AI integration guide](docs/api-and-ai-integrations.md) for the same information without motion.
+
+</details>
+
 OpenAI, Anthropic Claude and Google Gemini offer APIs that can support conversation, extraction and tool use. Select a provider against task quality, data policy, latency, supported outputs and operating cost. The presence of a model API does not make an application accurate or authorized. A schema-conforming response can still contain a wrong factual answer or an unsafe requested action.
 
 For retrieval-augmented generation, ingest approved knowledge, preserve document provenance and filter retrieval by the user's permissions. Embeddings and vector databases support semantic search; they do not establish whether a person may read a document. Test revoked access, document updates, deletion and misleading retrieved instructions. Responses should cite available evidence and admit when the knowledge base does not answer the question.
@@ -90,6 +119,10 @@ A retailer receives supplier updates that conflict with its own merchandising ru
 
 ## Deployment, delivery and ownership
 
+![Conceptual release gate graph: permission tests, data and cache checks, and critical journey tests feed a release review, followed by controlled deployment and operation](assets/release-gates.svg)
+
+This graph shows evidence dependencies rather than numerical performance scores. A release review combines security boundaries, data correctness and a user's complete journey. Assign a rollback owner and an observation plan before deployment; the [deployment runbook](docs/deployment-and-maintenance.md) turns those gates into operational checks.
+
 Vercel provides managed Next.js deployment, while supported Node.js servers and Docker-based environments are alternative paths. A static export supports a narrower feature set and is unsuitable for an application requiring server-side sessions, webhooks or request-time business logic. The [self-hosting guide](https://nextjs.org/docs/app/guides/self-hosting) explains deployment concerns; platform limits must be checked for each project.
 
 Use isolated preview and staging environments. Keep secrets out of public bundles and repositories, separate production data and restrict who can deploy. CI/CD should verify builds, types, critical integration tests and representative end-to-end journeys. Review database migrations for backwards compatibility; rolling back application code alone may not undo a destructive schema change.
@@ -110,7 +143,22 @@ WordPress may be a better choice for an editor-led publishing site. Shopify may 
 
 ## Explore Verified OzairWebs Projects
 
+### Public interfaces and their context
+
+![Screenshot of the public OzairWebs Next.js service page, showing service information and its conceptual platform illustration](assets/ozairwebs-nextjs-service-screenshot.png)
+
+**Service-page context:** the [official Next.js page](https://ozairwebs.com/technologies/nextjs/), captured on 13 October 2026. Its platform illustration is presentation material; measured performance belongs in a separate test report.
+
+![Screenshot of SadaPure's public storefront, with product categories, search, a basket and an ingredient-led shopping introduction](assets/sadapure-public-storefront-screenshot.png)
+
+**Published commerce context:** the [SadaPure storefront](https://sadapure.com/), captured on 13 October 2026. The screenshot makes catalogue navigation and the public shopping interface inspectable. The [company case study](https://ozairwebs.com/work/sadapure-ecommerce/) supplies implementation context. Public screenshots do not expose the underlying private application.
+
 The [SadaPure case study](https://ozairwebs.com/work/sadapure-ecommerce/) publicly describes a Next.js storefront, custom management dashboard, categories, product variants and guest cash-on-delivery checkout. The [Renters Rights Toolkit](https://ozairwebs.com/work/renters-rights-toolkit/) provides another published Next.js example. Their architectural lessons concern matching interfaces and administration to a real workflow; confidential source and implementation details remain outside this collection. Review the wider [portfolio](https://ozairwebs.com/work/) for contextual evidence.
+
+
+### Additional owner-confirmed project: Deal N Trading
+
+[Deal N Trading](http://dealntrading.com/) is an additional website project that the OzairWebs owner confirmed was built by the company on 13 October 2026. It is included as a portfolio reference. The public address could not be inspected during this review, so this guide does not attribute a framework, feature list, performance result or commercial outcome to it. See the [project reference notes](docs/case-study-references.md) for the evidence boundary.
 
 ## Questions before commissioning development
 
@@ -127,3 +175,5 @@ Use the [Next.js service page](https://ozairwebs.com/technologies/nextjs/) or [c
 Use the [application pattern comparison](docs/application-patterns.md) to evaluate SaaS, booking, membership, marketplace, headless publishing and internal reporting requirements before choosing a stack.
 
 Read the [published project context](docs/case-study-references.md), [source register](docs/references.md) and [reusable decision register](examples/README.md). Contributions should identify a specific correction and supporting evidence; see [contribution guidance](CONTRIBUTING.md). The [maintenance plan](MAINTENANCE.md) explains how versions and source changes are reviewed. Original documentation and CSV templates use [CC BY 4.0](LICENSE); the OzairWebs logo is excluded from that licence.
+
+Image sources, accessible alternatives and the illustration prompt are recorded in [visual notes](assets/README.md). Screenshots retain the underlying website and brand rights; diagrams describe illustrative engineering decisions.
