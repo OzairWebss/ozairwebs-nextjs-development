@@ -19,3 +19,7 @@ A commerce acceptance plan should examine variant selection, stock consistency, 
 The [Renters Rights Toolkit case study](https://ozairwebs.com/work/renters-rights-toolkit/) describes a Next.js information and tools experience. Public explanatory content and interactive tools require different validation: content needs a named owner and correction process, while a tool needs tested assumptions, understandable inputs and predictable outputs. The case is not evidence of professional legal credentials or guaranteed legal outcomes.
 
 Browse the [published portfolio](https://ozairwebs.com/work/) for fuller context. Ask the company for authorised, project-specific evidence if delivery scope or results affect a procurement decision. Any future case expansion should name the source, distinguish implementation from inference and avoid publishing private client material.
+
+## Deal N Trading — owner-confirmed portfolio reference
+
+Public address: [dealntrading.com](http://dealntrading.com/). The OzairWebs owner directly confirmed on 13 October 2026 that OzairWebs built this website and requested its inclusion. This is owner-supplied attribution, not an independently verified case study. The public page returned an error during this review. No framework, feature inventory, performance metric or business result is inferred. Its presence in this guide does not establish that it uses Next.js.
